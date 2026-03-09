@@ -3,99 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حروف مع العزيز - النسخة المطورة</title>
+    <title>حروف مع عزيز - النسخة الأصلية</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-wrapper">
+    <div class="game-container">
         <!-- شاشة البداية -->
         <div class="start-screen" id="startScreen">
-            <h1 class="game-title">🎮 حروف مع العزيز</h1>
+            <div class="logo">
+                <h1>🎮 حروف مع عزيز</h1>
+                <p class="subtitle">النسخة المطابقة 100%</p>
+            </div>
             
-            <!-- اختيار المستوى -->
-            <div class="level-selector">
-                <h3>🎯 اختر المستوى:</h3>
-                <div class="level-buttons">
-                    <button class="level-btn easy" onclick="selectLevel('easy')">سهل</button>
-                    <button class="level-btn medium" onclick="selectLevel('medium')">متوسط</button>
-                    <button class="level-btn hard" onclick="selectLevel('hard')">صعب</button>
+            <div class="setup-area">
+                <h2>إعدادات اللعبة</h2>
+                
+                <div class="team-setup">
+                    <div class="team-input team1-bg">
+                        <label>اسم الفريق الأزرق:</label>
+                        <input type="text" id="team1Name" value="فريق عزيز" placeholder="أدخل اسم الفريق">
+                    </div>
+                    
+                    <div class="team-input team2-bg">
+                        <label>اسم الفريق الأحمر:</label>
+                        <input type="text" id="team2Name" value="فريق متعب" placeholder="أدخل اسم الفريق">
+                    </div>
                 </div>
-                <p class="selected-level" id="selectedLevel">المستوى: سهل (5×5)</p>
+                
+                <div class="game-options">
+                    <h3>إعدادات إضافية</h3>
+                    
+                    <div class="option">
+                        <label>حجم الشبكة:</label>
+                        <select id="gridSize">
+                            <option value="5">5 × 5</option>
+                            <option value="6">6 × 6</option>
+                            <option value="7">7 × 7</option>
+                        </select>
+                    </div>
+                    
+                    <div class="option">
+                        <label>مدة السؤال (ثانية):</label>
+                        <select id="timerDuration">
+                            <option value="30">30 ثانية</option>
+                            <option value="45">45 ثانية</option>
+                            <option value="60">60 ثانية</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="start-btn" onclick="startGame()">🚀 ابدأ اللعبة</button>
             </div>
-
-            <div class="players-setup">
-                <div class="input-group">
-                    <label>👤 اسم الفريق الأزرق:</label>
-                    <input type="text" id="team1Name" value="النسور الزرقاء" placeholder="أدخل اسم الفريق">
-                </div>
-                <div class="input-group">
-                    <label>👥 اسم الفريق الأحمر:</label>
-                    <input type="text" id="team2Name" value="الصقور الحمراء" placeholder="أدخل اسم الفريق">
-                </div>
-                <button class="start-btn" onclick="startGame()">🚀 بدء اللعبة</button>
-            </div>
-
+            
             <!-- لوحة المتصدرين -->
-            <div class="leaderboard" id="leaderboard">
-                <h3>🏆 آخر الفائزين</h3>
+            <div class="leaderboard-panel">
+                <h3>🏆 قاعة المشاهير</h3>
                 <div id="leaderboardList"></div>
             </div>
         </div>
-
+        
         <!-- شاشة اللعبة الرئيسية -->
         <div class="game-screen hidden" id="gameScreen">
+            <!-- رأس اللعبة -->
             <div class="game-header">
-                <div class="team-score team1" id="team1Display">
-                    <span class="team-name" id="team1NameDisplay">النسور الزرقاء</span>
-                    <span class="score" id="team1Score">0</span>
+                <div class="team-card team1" id="team1Card">
+                    <div class="team-info">
+                        <span class="team-label">الفريق الأزرق</span>
+                        <span class="team-name" id="team1NameDisplay">عزيز</span>
+                    </div>
+                    <div class="team-score" id="team1Score">0</div>
                 </div>
                 
-                <div class="turn-indicator" id="turnIndicator">
-                    <span class="turn-team" id="currentTeamDisplay">الفريق الأزرق</span>
-                    <div class="timer" id="timerDisplay">⏱️ 30</div>
+                <div class="round-info">
+                    <div class="turn-indicator" id="turnIndicator">
+                        <span class="turn-label">الدور:</span>
+                        <span class="turn-team" id="currentTeamDisplay">عزيز</span>
+                    </div>
+                    <div class="timer-circle" id="timerDisplay">
+                        <svg>
+                            <circle class="timer-bg" cx="40" cy="40" r="36"></circle>
+                            <circle class="timer-progress" id="timerProgress" cx="40" cy="40" r="36"></circle>
+                        </svg>
+                        <span class="timer-text" id="timerText">30</span>
+                    </div>
                 </div>
                 
-                <div class="team-score team2" id="team2Display">
-                    <span class="team-name" id="team2NameDisplay">الصقور الحمراء</span>
-                    <span class="score" id="team2Score">0</span>
+                <div class="team-card team2" id="team2Card">
+                    <div class="team-info">
+                        <span class="team-label">الفريق الأحمر</span>
+                        <span class="team-name" id="team2NameDisplay">متعب</span>
+                    </div>
+                    <div class="team-score" id="team2Score">0</div>
                 </div>
             </div>
-
-            <!-- منطقة السؤال -->
-            <div class="question-area" id="questionArea">
-                <div class="question-box">
-                    <h3>❓ السؤال:</h3>
-                    <p id="questionText">اضغط على أي خلية للحصول على سؤال</p>
+            
+            <!-- منطقة السؤال (مثل المسابقة بالضبط) -->
+            <div class="question-panel" id="questionPanel">
+                <div class="question-header">
+                    <span class="question-icon">❓</span>
+                    <span class="question-category" id="questionCategory">سؤال عام</span>
+                </div>
+                <div class="question-content" id="questionText">
+                    اضغط على أي حرف لبدء السؤال
                 </div>
                 <div class="answer-area hidden" id="answerArea">
                     <input type="text" id="answerInput" placeholder="اكتب إجابتك هنا..." autocomplete="off">
-                    <button onclick="checkAnswer()" id="submitAnswer">✅ تأكيد</button>
+                    <button class="answer-btn" onclick="checkAnswer()">تأكيد الإجابة</button>
                 </div>
             </div>
-
+            
             <!-- شبكة اللعب -->
-            <div class="grid-container" id="grid"></div>
-
+            <div class="game-board">
+                <div class="grid-container" id="grid"></div>
+            </div>
+            
             <!-- أزرار التحكم -->
-            <div class="control-buttons">
-                <button class="reset-btn" onclick="resetGame()">🔄 لعبة جديدة</button>
-                <button class="home-btn" onclick="showStartScreen()">🏠 الرئيسية</button>
+            <div class="control-panel">
+                <button class="control-btn reset" onclick="resetGame()">🔄 لعبة جديدة</button>
+                <button class="control-btn home" onclick="showStartScreen()">🏠 القائمة الرئيسية</button>
             </div>
         </div>
-
+        
         <!-- شاشة الفوز -->
         <div class="win-screen hidden" id="winScreen">
-            <div class="win-content">
-                <h2>🎉 فوز!!! 🎉</h2>
-                <p id="winMessage"></p>
+            <div class="win-card">
+                <h2>🎉 فوز عظيم! 🎉</h2>
+                <div class="winner-trophy">🏆</div>
+                <p class="winner-message" id="winMessage"></p>
                 <div class="win-buttons">
-                    <button onclick="playAgain()">🔄 العب مرة أخرى</button>
-                    <button onclick="showStartScreen()">🏠 الرئيسية</button>
+                    <button class="play-again" onclick="playAgain()">العب مرة أخرى</button>
+                    <button class="main-menu" onclick="showStartScreen()">القائمة الرئيسية</button>
                 </div>
             </div>
         </div>
     </div>
-
+    
+    <script src="questions.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
