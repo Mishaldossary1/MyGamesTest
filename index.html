@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حروف مع العزيز - لعبة التحدي</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-wrapper">
+        <!-- شاشة البداية -->
+        <div class="start-screen" id="startScreen">
+            <h1 class="game-title">🎮 حروف مع العزيز</h1>
+            <div class="players-setup">
+                <div class="input-group">
+                    <label>اسم الفريق الأزرق:</label>
+                    <input type="text" id="team1Name" value="الفريق الأزرق" placeholder="أدخل اسم الفريق">
+                </div>
+                <div class="input-group">
+                    <label>اسم الفريق الأحمر:</label>
+                    <input type="text" id="team2Name" value="الفريق الأحمر" placeholder="أدخل اسم الفريق">
+                </div>
+                <button class="start-btn" onclick="startGame()">🚀 بدء اللعبة</button>
+            </div>
+        </div>
+
+        <!-- شاشة اللعبة الرئيسية (مخفية في البداية) -->
+        <div class="game-screen hidden" id="gameScreen">
+            <div class="game-header">
+                <div class="team-score team1" id="team1Display">
+                    <span class="team-name" id="team1NameDisplay">الفريق الأزرق</span>
+                    <span class="score" id="team1Score">0</span>
+                </div>
+                <div class="turn-indicator" id="turnIndicator">
+                    <span class="turn-text">دور</span>
+                    <span class="turn-team" id="currentTeamDisplay">الفريق الأزرق</span>
+                </div>
+                <div class="team-score team2" id="team2Display">
+                    <span class="team-name" id="team2NameDisplay">الفريق الأحمر</span>
+                    <span class="score" id="team2Score">0</span>
+                </div>
+            </div>
+
+            <!-- منطقة السؤال -->
+            <div class="question-area" id="questionArea">
+                <div class="question-box">
+                    <h3>❓ السؤال:</h3>
+                    <p id="questionText">اضغط على أي خلية للحصول على سؤال</p>
+                </div>
+                <div class="answer-area hidden" id="answerArea">
+                    <input type="text" id="answerInput" placeholder="اكتب إجابتك هنا...">
+                    <button onclick="checkAnswer()" id="submitAnswer">✅ تأكيد</button>
+                </div>
+            </div>
+
+            <!-- شبكة اللعب -->
+            <div class="grid-container" id="grid">
+                <!-- الشبكة ستتولد هنا -->
+            </div>
+
+            <button class="reset-btn" onclick="resetGame()">🔄 لعبة جديدة</button>
+        </div>
+
+        <!-- شاشة الفوز (مخفية) -->
+        <div class="win-screen hidden" id="winScreen">
+            <h2>🎉 فوز!!! 🎉</h2>
+            <p id="winMessage"></p>
+            <button onclick="showStartScreen()">العب مرة أخرى</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
