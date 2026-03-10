@@ -41,15 +41,6 @@
                             <option value="7">7 × 7</option>
                         </select>
                     </div>
-                    
-                    <div class="option">
-                        <label>مدة السؤال (ثانية):</label>
-                        <select id="timerDuration">
-                            <option value="30">30 ثانية</option>
-                            <option value="45">45 ثانية</option>
-                            <option value="60">60 ثانية</option>
-                        </select>
-                    </div>
                 </div>
                 
                 <button class="start-btn" onclick="startGame()">🚀 ابدأ اللعبة</button>
@@ -79,13 +70,6 @@
                         <span class="turn-label">الدور:</span>
                         <span class="turn-team" id="currentTeamDisplay">عزيز</span>
                     </div>
-                    <div class="timer-circle" id="timerDisplay">
-                        <svg>
-                            <circle class="timer-bg" cx="40" cy="40" r="36"></circle>
-                            <circle class="timer-progress" id="timerProgress" cx="40" cy="40" r="36"></circle>
-                        </svg>
-                        <span class="timer-text" id="timerText">30</span>
-                    </div>
                 </div>
                 
                 <div class="team-card team2" id="team2Card">
@@ -97,24 +81,28 @@
                 </div>
             </div>
             
-            <!-- منطقة السؤال (مثل المسابقة بالضبط) -->
-            <div class="question-panel" id="questionPanel">
-                <div class="question-header">
-                    <span class="question-icon">❓</span>
-                    <span class="question-category" id="questionCategory">سؤال عام</span>
-                </div>
-                <div class="question-content" id="questionText">
-                    اضغط على أي حرف لبدء السؤال
-                </div>
-                <div class="answer-area hidden" id="answerArea">
-                    <input type="text" id="answerInput" placeholder="اكتب إجابتك هنا..." autocomplete="off">
-                    <button class="answer-btn" onclick="checkAnswer()">تأكيد الإجابة</button>
-                </div>
-            </div>
-            
             <!-- شبكة اللعب -->
             <div class="game-board">
                 <div class="grid-container" id="grid"></div>
+            </div>
+            
+            <!-- لوحة تحكم المقدم -->
+            <div class="host-controls">
+                <h3>🎙️ تحكم المقدم</h3>
+                <div class="host-buttons">
+                    <button class="host-btn correct-btn" onclick="markCellCorrect()" id="correctBtn" disabled>
+                        ✅ إجابة صحيحة
+                    </button>
+                    <button class="host-btn wrong-btn" onclick="markCellWrong()" id="wrongBtn" disabled>
+                        ❌ إجابة خاطئة
+                    </button>
+                    <button class="host-btn cancel-btn" onclick="cancelSelection()" id="cancelBtn" disabled>
+                        🔄 إلغاء الاختيار
+                    </button>
+                </div>
+                <p class="host-instruction" id="hostInstruction">
+                    اختر حرفاً من الشبكة لبدء الجولة
+                </p>
             </div>
             
             <!-- أزرار التحكم -->
