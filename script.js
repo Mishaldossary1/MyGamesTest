@@ -226,3 +226,130 @@ function markCellWrong() {
     
     sounds.wrong.play();
     
+    if (checkWin(row, col)) {
+        highlightWinningCells(row, col);
+        setTimeout(() => showWinScreen(), 500);
+    } else {
+        gameState.currentTeam = gameState.currentTeam === 1 ? 2 : 1;
+        updateTurnIndicator();
+        
+        selectedCellByHost = null;
+        enableHostButtons(false);
+        document.getElementById('hostInstruction').innerHTML = 'اختر حرفاً من الشبكة لبدء الجولة';
+    }
+}
+
+// التحقق من الفوز
+function checkWin(row, col) {
+    const team = gameState.currentTeam;
+    const size = gameState.gridSize;
+    
+    const directions = [
+        { dr: 0, dc: 1 },
+        { dr: 1, dc: 0 },
+        { dr: 1, dc: 1 },
+        { dr: 1, dc: -1 }
+    ];
+    
+    for (let dir of directions) {
+        let count = 1;
+        
+        for (let i = 1; i < 5; i++) {
+            const r = row + dir.dr * i;
+            const c = col + dir.dc * i;
+            if (r >= 0 && r < size && c >= 0 && c < size && gameState.grid[r][c].team === team) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        
+        for (let i = 1; i < 5; i++) {
+            const r = row - dir.dr * i;
+            const c = col - dir.dc * i;
+            if (r >= 0 && r < size && c >= 0 && c < size && gameState.grid[r][c].team === team) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        
+        if (count >= 5) return true;
+    }
+    
+    return false;
+}
+
+// تطبيق تأثير الفوز على الخلايا
+function highlightWinningCells(row, col) {
+    const team = gameState.currentTeam;
+    
+    for (let i = 0; i < gameState.gridSize; i++) {
+        for (let j = 0; j < gameState.gridSize; j++) {
+            if (gameState.grid[i][j].team === team) {
+                gameState.grid[i][j].element.classList.add('win-highlight');
+            }
+        }
+    }
+}
+
+// تحديث النقاط
+function updateScores() {
+    document.getElementById('team1Score').textContent = gameState.team1.score;
+    document.getElementById('team2Score').textContent = gameState.team2.score;
+}
+
+// تحديث مؤشر الدور
+function updateTurnIndicator() {
+    const currentTeamName = gameState.currentTeam === 1 ? gameState.team1.name : gameState.team2.name;
+    document.getElementById('currentTeamDisplay').textContent = currentTeamName;
+    
+    const team1Card = document.getElementById('team1Card');
+    const team2Card = document.getElementById('team2Card');
+    
+    if (gameState.currentTeam === 1) {
+        team1Card.classList.add('active');
+        team2Card.classList.remove('active');
+    } else {
+        team2Card.classList.add('active');
+        team1Card.classList.remove('active');
+    }
+    
+    if (selectedCellByHost) {
+        document.getElementById('hostInstruction').innerHTML = 
+            `🎤 الحرف المختار: <strong>${selectedCellByHost.letter}</strong><br>
+             الفريق ${currentTeamName} يجاوب`;
+    }
+}
+
+// عرض شاشة الفوز
+function showWinScreen() {
+    sounds.win.play();
+    const winnerName = gameState.currentTeam === 1 ? gameState.team1.name : gameState.team2.name;
+    const winnerScore = gameState.currentTeam === 1 ? gameState.team1.score : gameState.team2.score;
+    
+    document.getElementById('winMessage').textContent = `الفائز: ${winnerName}`;
+    document.getElementById('winScreen').classList.remove('hidden');
+    
+    saveWinner(winnerName, winnerScore);
+    cancelSelection();
+}
+
+// العودة لشاشة البداية
+function showStartScreen() {
+    document.getElementById('winScreen').classList.add('hidden');
+    document.getElementById('gameScreen').classList.add('hidden');
+    document.getElementById('startScreen').classList.remove('hidden');
+    loadLeaderboard();
+}
+
+// لعب مرة أخرى
+function playAgain() {
+    document.getElementById('winScreen').classList.add('hidden');
+    resetGame();
+}
+
+// تهيئة الصفحة
+window.onload = function() {
+    loadLeaderboard();
+};
