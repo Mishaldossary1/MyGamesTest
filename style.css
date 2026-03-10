@@ -248,120 +248,6 @@ body {
     color: #3498db;
 }
 
-/* دائرة المؤقت */
-.timer-circle {
-    position: relative;
-    width: 80px;
-    height: 80px;
-}
-
-.timer-circle svg {
-    width: 80px;
-    height: 80px;
-    transform: rotate(-90deg);
-}
-
-.timer-bg {
-    fill: none;
-    stroke: #e0e0e0;
-    stroke-width: 8;
-}
-
-.timer-progress {
-    fill: none;
-    stroke: #3498db;
-    stroke-width: 8;
-    stroke-linecap: round;
-    stroke-dasharray: 226.2;
-    stroke-dashoffset: 0;
-    transition: stroke-dashoffset 1s linear;
-}
-
-.timer-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #2c3e50;
-}
-
-/* لوحة السؤال */
-.question-panel {
-    background: linear-gradient(145deg, #f39c12, #e67e22);
-    padding: 30px;
-    border-radius: 30px;
-    margin-bottom: 30px;
-    color: white;
-    box-shadow: 0 15px 30px rgba(243,156,18,0.3);
-}
-
-.question-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.question-icon {
-    font-size: 2rem;
-}
-
-.question-category {
-    background: rgba(255,255,255,0.2);
-    padding: 8px 20px;
-    border-radius: 50px;
-    font-size: 1rem;
-}
-
-.question-content {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    min-height: 100px;
-    display: flex;
-    align-items: center;
-}
-
-.answer-area {
-    display: flex;
-    gap: 15px;
-    animation: slideUp 0.3s ease;
-}
-
-.answer-area input {
-    flex: 1;
-    padding: 18px;
-    border: none;
-    border-radius: 15px;
-    font-size: 1.2rem;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.answer-area input:focus {
-    outline: none;
-    box-shadow: 0 5px 20px rgba(255,255,255,0.5);
-}
-
-.answer-btn {
-    padding: 18px 40px;
-    background: #2ecc71;
-    color: white;
-    border: none;
-    border-radius: 15px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 5px 15px rgba(46,204,113,0.3);
-}
-
-.answer-btn:hover {
-    background: #27ae60;
-    transform: scale(1.05);
-}
-
 /* شبكة اللعب */
 .game-board {
     background: #ecf0f1;
@@ -411,26 +297,133 @@ body {
     opacity: 0.5;
 }
 
+/* لون الخلية المختارة (أصفر) */
+.cell.selected-by-host {
+    background: #f1c40f !important;
+    border-color: #e67e22 !important;
+    color: #2c3e50 !important;
+    transform: scale(1.05);
+    box-shadow: 0 0 30px #f1c40f;
+    animation: pulse 1s infinite;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+}
+
+.cell.selected-by-host::after {
+    content: '👆';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 1.5rem;
+    animation: bounce 0.5s infinite;
+}
+
+/* الخلايا المأخوذة */
 .cell.team1 {
-    background: linear-gradient(145deg, #3498db, #2980b9);
-    border-color: #1f4e79;
-    color: white;
+    background: linear-gradient(145deg, #3498db, #2980b9) !important;
+    border-color: #1f4e79 !important;
+    color: white !important;
     cursor: not-allowed;
-    animation: popIn 0.3s ease;
 }
 
 .cell.team2 {
-    background: linear-gradient(145deg, #e74c3c, #c0392b);
-    border-color: #962d22;
-    color: white;
+    background: linear-gradient(145deg, #e74c3c, #c0392b) !important;
+    border-color: #962d22 !important;
+    color: white !important;
     cursor: not-allowed;
-    animation: popIn 0.3s ease;
 }
 
 .cell.win-highlight {
     animation: winFlash 0.5s infinite;
     border-color: gold;
     box-shadow: 0 0 30px gold;
+}
+
+/* لوحة تحكم المقدم */
+.host-controls {
+    background: linear-gradient(145deg, #2c3e50, #34495e);
+    padding: 20px;
+    border-radius: 20px;
+    margin: 20px 0;
+    color: white;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.host-controls h3 {
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    color: #f1c40f;
+}
+
+.host-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.host-btn {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+    min-width: 150px;
+}
+
+.host-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.correct-btn {
+    background: #2ecc71;
+    color: white;
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+}
+
+.correct-btn:hover:not(:disabled) {
+    background: #27ae60;
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(46, 204, 113, 0.5);
+}
+
+.wrong-btn {
+    background: #e74c3c;
+    color: white;
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+}
+
+.wrong-btn:hover:not(:disabled) {
+    background: #c0392b;
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(231, 76, 60, 0.5);
+}
+
+.cancel-btn {
+    background: #95a5a6;
+    color: white;
+    box-shadow: 0 5px 15px rgba(149, 165, 166, 0.3);
+}
+
+.cancel-btn:hover:not(:disabled) {
+    background: #7f8c8d;
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(149, 165, 166, 0.5);
+}
+
+.host-instruction {
+    margin-top: 15px;
+    font-size: 1.1rem;
+    color: #ecf0f1;
+    background: rgba(255,255,255,0.1);
+    padding: 10px;
+    border-radius: 10px;
 }
 
 /* لوحة التحكم */
@@ -585,26 +578,20 @@ body {
     to { transform: translateY(0); opacity: 1; }
 }
 
-@keyframes popIn {
-    0% { transform: scale(0); }
-    80% { transform: scale(1.1); }
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
     100% { transform: scale(1); }
 }
 
 @keyframes bounce {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+    50% { transform: translateY(-10px); }
 }
 
 @keyframes winFlash {
     0%, 100% { box-shadow: 0 0 30px gold; }
     50% { box-shadow: 0 0 60px gold; }
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
 }
 
 /* تحسينات الجوال */
@@ -626,11 +613,15 @@ body {
         font-size: 2rem;
     }
     
-    .question-content {
-        font-size: 1.3rem;
-    }
-    
     .logo h1 {
         font-size: 2.5rem;
+    }
+    
+    .host-buttons {
+        flex-direction: column;
+    }
+    
+    .host-btn {
+        width: 100%;
     }
 }
